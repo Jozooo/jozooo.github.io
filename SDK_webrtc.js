@@ -24,14 +24,14 @@ var UCallState = 5;
 var UCSConnect = {
 
     // 初始化
-    init: function (domain, wsServer, wssServer)
+    init: function (domain, wssServer)
     {
         console.log("----------------\n\n初始化中\n\n----------------");
 
         //UDomain.domain = domain;
         //UDomain.wsServer = wsServer;
         //UDomain.wssServer = wssServer;
-        
+
     },
 
     // 登陆
@@ -40,7 +40,8 @@ var UCSConnect = {
         console.log("----------------\n\n登陆中\n\n----------------");
         USIP.userAgent = new SIP.UA({
             uri: userName + '@' + UDomain.domain,
-            wsServers: [UDomain.wsServer, UDomain.wssServer],
+            //wsServers: [UDomain.wsServer, UDomain.wssServer],
+            wsServers: [UDomain.wssServer],
             authorizationUser: userName,
             password: password,
             displayName: displayName,
@@ -48,52 +49,27 @@ var UCSConnect = {
         });
 
         // 跳转来电回调
-        USIP.userAgent.on('invite', UCSCall.onIncomingCall);
+        USIP.userAgent.on('invite', UCSCall.OnIncomingCall);
 
         //// 跳转登录成功回调
-        //USIP.userAgent.on('registered', UCSConnect.onLoginRet);
+        //USIP.userAgent.on('registered', UCSConnect.OnLoginRet);
         //// 跳转登录失败回调
-        //USIP.userAgent.on('registrationFailed', UCSConnect.onLoginRet);
+        //USIP.userAgent.on('registrationFailed', UCSConnect.OnLoginRet);
 
         // 跳转登录成功回调
         USIP.userAgent.on('registered', function (response, cause) {
-            UCSConnect.onLoginRet(response, cause, 0);
+            UCSConnect.OnLoginRet(response, cause, 0);
         });
 
         // 跳转登录失败回调
         USIP.userAgent.on('registrationFailed',  function (response, cause) {
-            UCSConnect.onLoginRet(response, cause, 99);
+            UCSConnect.OnLoginRet(response, cause, 99);
         });
 
     },
 
-
-    //login1: function(username, password, displayName) {
-    //
-    //    console.log("----------------\n\n登陆中\n\n----------------");
-    //    USIP.userAgent = new SIP.UA({
-    //        traceSip: true,
-    //        uri: username + '@sipjs.onsip.com',
-    //        displayName: displayName
-    //    });
-    //
-    //    // 跳转来电回调
-    //    USIP.userAgent.on('invite', UCSCall.onIncomingCall);
-    //
-    //
-    //    // 跳转登录成功回调
-    //    USIP.userAgent.on('registered', function (response, cause) {
-    //        UCSConnect.onLoginRet(response, cause, 0);
-    //    });
-    //
-    //    // 跳转登录失败回调
-    //    USIP.userAgent.on('registrationFailed',  function (response, cause) {
-    //        UCSConnect.onLoginRet(response, cause, 99);
-    //    });
-    //},
-
     // 登录结果回调
-    onLoginRet: function(response, cause, ret){
+    OnLoginRet: function(response, cause, ret){
         console.log("----------------\n\n登录结果:" + response + "\ncause:" + cause + "\n\n----------------");
 
         // 外部登陆回调
@@ -107,7 +83,7 @@ var UCSConnect = {
         if (ret === 0) {
             ULoginState = 0;
         }
-        onLoginRet(response, ret);
+        OnLoginRet(response, ret);
     },
 
 
@@ -129,35 +105,35 @@ var UCSConnect = {
         USIP.userAgent.unregister(logout_options);
 
         //if (UCallState === 6) {   // 收到来电时退出
-        //    UCSCall.reject();
+        //    UCSCall.CallReject();
         //} else if (UCallState === 2) {    // 接听电话时退出
-        //    UCSCall.callGiveUp();
+        //    UCSCall.CallGiveup();
         //}
 
         //// 跳转登出成功回调
-        //USIP.userAgent.on('unregistered', UCSConnect.onLogoutRet);
+        //USIP.userAgent.on('unregistered', UCSConnect.OnLogoutRet);
         //// 跳转登出失败回调
-        //USIP.userAgent.on('unregisteredFailed', UCSConnect.onLogoutRet);
+        //USIP.userAgent.on('unregisteredFailed', UCSConnect.OnLogoutRet);
 
         // 跳转登出成功回调
         USIP.userAgent.on('unregistered', function (response, cause) {
-            UCSConnect.onLogoutRet(response, cause, 0);
+            UCSConnect.OnLogoutRet(response, cause, 0);
             ULoginState = 9;
         });
 
         // 跳转登出失败回调
         USIP.userAgent.on('unregisteredFailed', function (response, cause) {
-            UCSConnect.onLogoutRet(response, cause, 1);
+            UCSConnect.OnLogoutRet(response, cause, 1);
         });
 
     },
 
     // 登出结果回调
-    onLogoutRet: function(response, cause, ret){
+    OnLogoutRet: function(response, cause, ret){
         console.log("----------------\n\n登出结果:" + response + "\ncause:" + cause + "\n\n----------------");
 
         // 外部登出回调
-        onLogoutRet(response, ret);
+        OnLogoutRet(response, ret);
     }
 
     // 异常事件
@@ -167,7 +143,7 @@ var UCSConnect = {
 var UCSCall = {
 
     // 发起通话
-    sendOutCall: function (called) {
+    SendOutCall: function (called) {
 
         console.log("----------------\n\n发起外呼\n\n----------------");
 
@@ -175,27 +151,13 @@ var UCSCall = {
 
         USIP.session = USIP.userAgent.invite('sip:' + called + '@' + UDomain.domain, USIP.options);
 
-        UCSCall.onOutCallStatus('OUT', USIP.session);
+        UCSCall.OnOutCallStatus('OUT', USIP.session);
 
         // USIP.session.request 请求参数
     },
 
-
-    //sendOutCall1: function (called) {
-    //
-    //    console.log("----------------\n\n发起外呼\n\n----------------");
-    //
-    //    //var uri = new SIP.URI('WSS', called, 'ipcc.ucpaas.com');
-    //
-    //    USIP.session = USIP.userAgent.invite('sip:' + called + '@sipjs.onsip.com', USIP.options);
-    //
-    //    UCSCall.onOutCallStatus('OUT', USIP.session);
-    //
-    //    // USIP.session.request 请求参数
-    //},
-
     // 通话状态回调
-    onOutCallStatus: function (callType, currentSession) {
+    OnOutCallStatus: function (callType, currentSession) {
 
         var ret = 99;
         var callID = currentSession.request.call_id;
@@ -210,14 +172,14 @@ var UCSCall = {
             console.log("----------------\n\n拨号中\n\n----------------");
             ret = 1;
             UCallState = 1;
-            onCallStationChange(response, callID, ret, callType, peerNumber);
+            OnCallStationChange(response, callID, ret, callType, peerNumber);
         });
         // 跳转到已接听 data.code  data.response
         currentSession.on('accepted', function (data) {
             console.log("----------------\n\n通话被接听\n\n----------------");
             ret = 2;
             UCallState = 2;
-            onCallStationChange(data, callID, ret, callType, peerNumber);
+            OnCallStationChange(data, callID, ret, callType, peerNumber);
             //alert("accepted" + '\n' +  data);
         });
         // 已拒接
@@ -225,7 +187,7 @@ var UCSCall = {
             console.log("----------------\n\n通话被拒接\n\n----------------");
             ret = 3;
             UCallState = 3;
-            onCallStationChange(response, callID, ret, callType, peerNumber);
+            OnCallStationChange(response, callID, ret, callType, peerNumber);
             //alert("rejected" + '\n' +  response + '\n' + cause);
         });
         // 已挂断
@@ -234,7 +196,7 @@ var UCSCall = {
             ret = 4;
             UCallState = 4;
             USIP.session = null;
-            onCallStationChange(request, callID, ret, callType, peerNumber);
+            OnCallStationChange(request, callID, ret, callType, peerNumber);
             //alert('failed' + request.reason_phrase);
         });
         // 已取消
@@ -242,7 +204,7 @@ var UCSCall = {
             console.log("----------------\n\n通话已取消\n\n----------------");
             ret = 5;
             UCallState = 5;
-            onCallStationChange(null, callID, ret, callType, peerNumber);
+            OnCallStationChange(null, callID, ret, callType, peerNumber);
         });
 
         // 异常事件
@@ -274,29 +236,29 @@ var UCSCall = {
             //
             //}
             UCallState = 0;
-            onCallStationChange(message, callID, ret, callType, peerNumber);
-            onCallGiveup(message, cause);
+            OnCallStationChange(message, callID, ret, callType, peerNumber);
+            OnCallGiveup(message, cause);
         });
     } ,
 
 
 
     // 来电回调
-    onIncomingCall: function (incomingSession) {
+    OnIncomingCall: function (incomingSession) {
 
         console.log("----------------\n\n收到来电\n\n----------------");
         USIP.session = incomingSession;
         UCallState = 6;
-        UCSCall.onOutCallStatus('IN', USIP.session);
+        UCSCall.OnOutCallStatus('IN', USIP.session);
 
         //alert(incomingSession.request.body);
         // 外部来电回调
         //alert(incomingSession.request.call_id + '\n' + incomingSession.request.from + '\n');
-        onIncomingCall(incomingSession.request.call_id, incomingSession.request.from, incomingSession.request.data);
+        OnIncomingCall(incomingSession.request.call_id, incomingSession.request.from, incomingSession.request.data);
     },
 
     // 接听来电
-    answerCall: function () {
+    AnswerCall: function () {
 
         if (UCallState !== 6) {
             console.log("----------------\n\n未收到来电,无法接听\n\n----------------");
@@ -308,7 +270,7 @@ var UCSCall = {
     },
 
     // 拒绝来电
-    reject: function () {
+    CallReject: function () {
 
         if (UCallState !== 6) {
             console.log("----------------\n\n未收到来电,无法拒接\n\n----------------");
@@ -333,7 +295,7 @@ var UCSCall = {
     },
 
     // 释放呼叫
-    callGiveUp: function () {
+    CallGiveup: function () {
 
         if (UCallState !== 2) {
             console.log("----------------\n\n无法挂断通话\n\n----------------");
@@ -345,7 +307,7 @@ var UCSCall = {
     },
 
     //释放呼叫结果
-    onCallGiveup: function(request) {
+    OnCallGiveup: function(request) {
         //console.log("----------------\n\n释放通话结果:" + request + "\n\n----------------");
     },
 
@@ -354,12 +316,12 @@ var UCSCall = {
 
 
 // 通话状态回调
-function onCallStationChange(message, callID, ret, callType, peerNumber) {
+function OnCallStationChange(message, callID, ret, callType, peerNumber) {
     // 外部通话回调(未解析)
-    onOutCallStatusMSG(message, ret);
+    OnOutCallStatusMSG(message, ret);
 
     // 外部通话回调(解析)
-    onOutCallStatus(callID, ret, callType, peerNumber);
+    OnOutCallStatus(callID, ret, callType, peerNumber);
 }
 
 // 功能函数

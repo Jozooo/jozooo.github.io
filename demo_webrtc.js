@@ -35,7 +35,7 @@ function fillDomain(){
     //UDomain.wssServer = arr_wss[index];
 
     $('#domain_init').val(arr_domain[index]);
-    $('#ws_init').val(arr_ws[index]);
+    //$('#ws_init').val(arr_ws[index]);
     $('#wss_init').val(arr_wss[index]);
 
 }
@@ -64,10 +64,11 @@ function settingAction() {
     var wssServer = $('#wss_init').val();
 
     UDomain.domain = domain;
-    UDomain.wsServer = wsServer;
+    //UDomain.wsServer = wsServer;
     UDomain.wssServer = wssServer;
 
-    printLog('修改配置\ndomain:'  + domain + '\nwsServer:' + wsServer + '\nwssServer:' + wssServer);
+    //printLog('修改配置\ndomain:'  + domain + '\nwsServer:' + wsServer + '\nwssServer:' + wssServer);
+    printLog('修改配置\ndomain:'  + domain + '\nwssServer:' + wssServer);
     UCSConnect.init(domain, wsServer, wssServer);
 }
 
@@ -104,17 +105,17 @@ function logoutAction() {
 function startAction() {
 
     var called = $('#username_called').val();
-    UCSCall.sendOutCall(called);
+    UCSCall.SendOutCall(called);
 }
 
 
 function answerAction() {
-    UCSCall.answerCall();
+    UCSCall.AnswerCall();
 }
 
 
 function rejectAction() {
-    UCSCall.reject();
+    UCSCall.CallReject();
 }
 
 function cancelAction() {
@@ -123,7 +124,7 @@ function cancelAction() {
 
 
 function endAction() {
-    UCSCall.callGiveUp();
+    UCSCall.CallGiveup();
 }
 
 function cleanAction() {
@@ -133,31 +134,31 @@ function cleanAction() {
 
 // 回调函数
 // 登录回调
-function onLoginRet(message, ret) {
+function OnLoginRet(message, ret) {
     //alert(message + '\n' + ret);
     printLog('登陆回调\n'  + message + '\nret:' + ret);
 }
 
 // 登出回调
-function onLogoutRet(message, ret) {
+function OnLogoutRet(message, ret) {
     //alert(message + '\n' + ret);
     printLog('登出回调\n'  + message + '\nret:' + ret);
 }
 
 
 // 来电
-function onIncomingCall(callID, caller, message) {
+function OnIncomingCall(callID, caller, message) {
     //alert( caller + '\n' + data);
     printLog('收到来电\n'  + message);
 }
 
-function onOutCallStatus(callID, ret, callType, peerNumber) {
-    //alert('onOutCallStatus\n' + callId + '\n' + ret + '\n' + callType + '\n' + peerNumber);
+function OnOutCallStatus(callID, ret, callType, peerNumber) {
+    //alert('OnOutCallStatus\n' + callId + '\n' + ret + '\n' + callType + '\n' + peerNumber);
     //printLog("通话状态回调(解析后)\n" + 'callID:' + callID + '\ncallType:' + callType + '\npeerNumber:' + peerNumber + '\nret:' + ret);
 }
 
 
-function onOutCallStatusMSG(message, ret) {
+function OnOutCallStatusMSG(message, ret) {
 
     // 打印msg
     console.log("----------------\n\n通话状态变更\n" + message + "\n\n----------------");
@@ -178,11 +179,11 @@ function onOutCallStatusMSG(message, ret) {
     }
 
     printLog(str_ret + "\n" + message + '\nret:' + ret);
-    //alert('onOutCallStatus\n' + callId + '\n' + ret + '\n' + callType + '\n' + peerNumber);
+    //alert('OnOutCallStatus\n' + callId + '\n' + ret + '\n' + callType + '\n' + peerNumber);
 }
 
 // 通话结束回调
-function onCallGiveup(message, cause) {
+function OnCallGiveup(message, cause) {
 
     var str_ret = '通话已结束';
     printLog(str_ret + "\n" + message + '\ncause:' + cause);
