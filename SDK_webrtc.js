@@ -34,7 +34,7 @@ var UCSConnect = {
 
         navigator.getUserMedia = navigator.getUserMedia ||
             navigator.webkitGetUserMedia ||
-            navigator.mozGetUserMedia;
+            navigator.mediaDevices.getUserMedia;
 
         if (navigator.getUserMedia) {
             navigator.getUserMedia({ audio: true, video: false },
