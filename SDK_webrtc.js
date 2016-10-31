@@ -31,23 +31,7 @@ var UCSConnect = {
         //UDomain.domain = domain;
         //UDomain.wsServer = wsServer;
         //UDomain.wssServer = wssServer;
-
-        navigator.getUserMedia = navigator.getUserMedia ||
-            navigator.webkitGetUserMedia ||
-            navigator.mediaDevices.getUserMedia;
-
-        if (navigator.getUserMedia) {
-            navigator.getUserMedia({ audio: true, video: false },
-                function(stream) {
-
-                },
-                function(err) {
-                    console.log("The following error occurred: " + err.name);
-                }
-            );
-        } else {
-            console.log("getUserMedia not supported");
-        }
+        
     },
 
     // 登陆
