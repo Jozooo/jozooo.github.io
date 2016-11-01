@@ -17,7 +17,7 @@ var session;
 
 
 var arr_domain = ['ipcc.ucpaas.com', '113.31.16.201', '113.31.21.234'];
-var arr_ws = ['ws://ipcc.ucpaas.com:5166', 'ws://113.31.16.201:5166', 'ws://113.31.21.234:5066'];
+//var arr_ws = ['ws://ipcc.ucpaas.com:5166', 'ws://113.31.16.201:5166', 'ws://113.31.21.234:5066'];
 var arr_wss = ['wss://ipcc.ucpaas.com:5164', 'wss://113.31.16.201:5164', 'wss://113.31.21.234:7443'];
 
 var arr_username = ['62585050566263', '62585050566264', '63789050566265', '63789050566304'];
@@ -69,12 +69,12 @@ function settingAction() {
 
     //printLog('修改配置\ndomain:'  + domain + '\nwsServer:' + wsServer + '\nwssServer:' + wssServer);
     printLog('修改配置\ndomain:'  + domain + '\nwssServer:' + wssServer);
-    UCSConnect.init(domain, wsServer, wssServer);
+    UCSConnect.init();
 }
 
 function loginAction() {
 
-    UCSConnect.init();
+    //UCSConnect.init();
     USIP.options = {
         media: {
             constraints: {

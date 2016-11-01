@@ -24,7 +24,7 @@ var UCallState = 5;
 var UCSConnect = {
 
     // 初始化
-    init: function (domain, wssServer)
+    init: function ()
     {
         console.log("----------------\n\n初始化中\n\n----------------");
 
