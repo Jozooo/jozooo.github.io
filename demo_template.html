@@ -1,0 +1,79 @@
+<div class="container">
+	<fieldset>
+		<legend>云之讯网络电话demo<span class="msg-tip" id="tipMsg">请先登录</span></legend>
+	</fieldset>
+	<div class="" style="float: left;">
+		<form class="form-horizontal">
+			<div class="control-group" data-for-old>
+				<label class="control-label">appId：</label>
+				<div class="controls">
+					<input type="text" id='appId'>
+				</div>
+			</div>
+			<div class="control-group" data-for-old>
+				<label class="control-label">用户名：</label>
+				<div class="controls">
+					<input type="text" id='userName'>
+				</div>
+			</div>
+			<div class="control-group" data-for-old>
+				<label class="control-label">密&nbsp;码：</label>
+				<div class="controls">
+					<input type="password" id='password'>
+				</div>
+			</div>
+			<div class="control-group dis-n" data-for-new>
+				<label class="control-label">token：</label>
+				<div class="controls">
+					<input type="text" id='token' placeholder="输入您的token">
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="button" class="btn btn-primary" id="loginBtn" value="登录"></input>
+					<input type="button" class="btn btn-danger" id="logoutBtn" value="退出"></input>
+				</div>
+			</div>
+		</form>
+	</div>
+	<div class="" style="float: left;">
+		<form class="form-horizontal">
+			<div class="control-group">
+				<label class="control-label"> 显示号码：</label>
+				<div class="controls">
+					<input type="text" id="displayNum" value="" />
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label"> 被叫号码：</label>
+				<div class="controls">
+					<input type="text" id="callTaret" value="18576626574" />
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<input type="button" class="btn btn-info dropdown-toggle" data-type="audio" id="sendAudioCallBtn" value="语音呼叫"></input>
+					<input type="button" class="btn btn-success" id="giveUpBtn" value="挂断"></input>
+				</div>
+			</div>
+			<div class="control-group" style="display: none;" id="incomingArea">
+				<label class="control-label">您有来电：</label>
+				<div class="controls" id="incomingFuns">
+					<div class="popover-title" id="incomingNo"></div>
+					<input type="button" class="btn btn-success" id="answerCallBtn" value="接听"></input>
+					<input type="button" class="btn btn-inverse" id="refuseBtn" value="拒绝"></input>
+				</div>
+			</div>
+			<div class="control-group dis-n" id="callIdContent">
+				<label class="control-label">本次通话callId：</label>
+				<div class="controls m-t-4" id="callIdSpan">
+
+				</div>
+			</div>
+		</form>
+		<!--<div class="loading">正在加载服务器资源...</div>-->
+	</div>
+	<div class="subscription-wraper">
+		<input class="btn btn-primary" id="subscribeBtn" value="订阅"/>
+		<input class="btn btn-primary" id="unSubscribeBtn" value="取消订阅"/>
+	</div>

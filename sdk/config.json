@@ -1,0 +1,9 @@
+{
+        "default_webrtc_server_url":"113.31.16.201",
+        "default_webrtc_server_port":"5766",
+        "default_https_webrtc_server_url":"ipcc.ucpaas.com",
+        "default_https_webrtc_server_port":"5764",
+        "cps_server_url":"113.31.88.173",
+        "cps_server_port":"9997",
+        "start_cps":false
+}
