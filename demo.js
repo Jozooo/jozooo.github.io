@@ -119,7 +119,7 @@ var　Demo = {
 			return;
 		}
 		type = this.SendCallTypes[type];
-		var ret = UCSConnect.MakeNewCall(type,sendNo);
+		var ret = UCSConnect.SendOutCall(sendNo);
 		if(ret < 0){
 			alert("呼叫失敗");
 			return;
@@ -189,13 +189,13 @@ var　Demo = {
 			that.setTipMsg("订阅中...");
 			that.disableBtn();
 			that.isSubsribe = true;
-			UCSConnect.sendSubsribe(userName, appId);
+			//UCSConnect.sendSubsribe(userName, appId);
 		});
 		
 		this.unSubscribeBtn.bind("click", function(){
 			that.setTipMsg("取消订阅中...");
 			try{
-				UCSConnect.unSubsribe();
+				//UCSConnect.unSubsribe();
 			}catch(e){
 				alert(e);
 			}
@@ -226,7 +226,7 @@ var　Demo = {
 			callerNo = $.trim(callerNo);
 
 //			var serviceId = "";//坐席ID
-			UCSConnect.SendOutCall(callerNo, sendNo,displayNum);
+			UCSConnect.SendOutCall(sendNo);
 			that.callType = that.CALL_TYPES.CALL_OUT;//呼出
 			that.setTipMsg("正在呼叫...");
 			//that.startRingbackTone();
@@ -293,11 +293,11 @@ var　Demo = {
 		//静音
 		this.disableAudioBtn.bind("click",function(){
 			try{
-				var state = UCSConnect.GetMic();
+				//var state = UCSConnect.GetMic();
 				state = state === 0 ? 1 : 0;
 				var btnStr = state === 0 ? "开启"  : "静音";
 				that.setDisabledAudioBtnValue(btnStr);
-				UCSConnect.SetMic(state);
+				//UCSConnect.SetMic(state);
 			}catch(e){
 				alert(e);
 			}
@@ -310,9 +310,9 @@ var　Demo = {
 	setDisabledAudioBtnValue:function(value){
 		this.disableAudioBtn.val(value);
 	},
-	doLogin:function(userName, password, appId){
-		UCSConnect.setAppId(appId);
-		var ret = UCSConnect.login(userName,password);
+	doLogin:function(userName, password, displayName){
+		//UCSConnect.setAppId(appId);
+		var ret = UCSConnect.login(userName,password,displayName);
 		if(ret === false){
 			alert("登录失败，请查看控制台信息");
 			Demo.disableBtn();
